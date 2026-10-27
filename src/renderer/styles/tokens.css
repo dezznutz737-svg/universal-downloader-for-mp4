@@ -1,0 +1,150 @@
+/* ============================================================
+   Universal Downloader — design tokens
+   Dark-mode first. A cohesive electric-indigo accent, one type
+   family (bundled Inter for identical rendering on Win + Mac),
+   a calibrated neutral ramp, and consistent spacing/radii/shadow
+   scales that every component pulls from. Change values here and
+   the whole app moves together.
+   ============================================================ */
+
+/* Bundled so Windows and macOS render pixel-identical type instead
+   of falling back to Segoe UI vs San Francisco. */
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  /* ---- Accent (brand) ---- */
+  --accent: #6c5cff;
+  --accent-hover: #7d6dff;
+  --accent-press: #5a49f0;
+  --accent-soft: rgba(108, 92, 255, 0.14);
+  --accent-soft-hover: rgba(108, 92, 255, 0.22);
+  --accent-ring: rgba(108, 92, 255, 0.45);
+  --accent-grad: linear-gradient(135deg, #7b6bff 0%, #6c5cff 55%, #8a5cff 100%);
+  --accent-contrast: #ffffff;
+
+  /* ---- Status ---- */
+  --success: #2ecc85;
+  --success-soft: rgba(46, 204, 133, 0.14);
+  --danger: #ff5c6c;
+  --danger-soft: rgba(255, 92, 108, 0.14);
+  --warning: #ffb454;
+  --warning-soft: rgba(255, 180, 84, 0.14);
+
+  /* ---- Platform brand dots (preview cards) ---- */
+  --p-youtube: #ff3b30;
+  --p-tiktok: #25f4ee;
+  --p-twitch: #a970ff;
+  --p-instagram: #e1306c;
+  --p-twitter: #1d9bf0;
+  --p-soundcloud: #ff7700;
+  --p-facebook: #1877f2;
+  --p-generic: var(--accent);
+
+  /* ---- Radii ---- */
+  --r-xs: 6px;
+  --r-sm: 9px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+  --r-pill: 999px;
+
+  /* ---- Spacing scale (4px base) ---- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+
+  /* ---- Type ---- */
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --fs-xs: 11px;
+  --fs-sm: 12px;
+  --fs-base: 13px;
+  --fs-md: 14px;
+  --fs-lg: 16px;
+  --fs-xl: 20px;
+  --fs-2xl: 26px;
+  --fs-3xl: 34px;
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 120ms;
+  --dur: 200ms;
+  --dur-slow: 320ms;
+
+  --titlebar-h: 44px;
+  --sidebar-w: 232px;
+}
+
+/* ---------- Dark theme (default) ---------- */
+:root,
+:root[data-theme='dark'] {
+  --bg-app: #0d0d12;
+  --bg-sidebar: #0a0a0e;
+  --bg-surface: #16161d;
+  --bg-surface-2: #1c1c25;
+  --bg-elevated: #212130;
+  --bg-input: #14141b;
+  --bg-hover: rgba(255, 255, 255, 0.045);
+  --bg-active: rgba(255, 255, 255, 0.07);
+  --bg-scrim: rgba(6, 6, 10, 0.62);
+
+  --border: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --border-input: rgba(255, 255, 255, 0.09);
+
+  --text: #f3f3f7;
+  --text-2: #a6a6b4;
+  --text-3: #6f6f80;
+  --text-on-accent: #ffffff;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.36);
+  --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.5);
+  --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.55);
+
+  --glow-accent: 0 8px 30px rgba(108, 92, 255, 0.35);
+  color-scheme: dark;
+}
+
+/* ---------- Light theme ---------- */
+:root[data-theme='light'] {
+  --bg-app: #f4f4f7;
+  --bg-sidebar: #ececeff2;
+  --bg-surface: #ffffff;
+  --bg-surface-2: #f6f6fa;
+  --bg-elevated: #ffffff;
+  --bg-input: #ffffff;
+  --bg-hover: rgba(15, 15, 30, 0.04);
+  --bg-active: rgba(15, 15, 30, 0.07);
+  --bg-scrim: rgba(20, 20, 30, 0.4);
+
+  --border: rgba(18, 18, 34, 0.09);
+  --border-strong: rgba(18, 18, 34, 0.15);
+  --border-input: rgba(18, 18, 34, 0.14);
+
+  --text: #16161c;
+  --text-2: #55555f;
+  --text-3: #8a8a95;
+  --text-on-accent: #ffffff;
+
+  --shadow-sm: 0 1px 2px rgba(20, 20, 40, 0.08);
+  --shadow-md: 0 10px 26px rgba(20, 20, 40, 0.1);
+  --shadow-lg: 0 22px 50px rgba(20, 20, 40, 0.16);
+  --shadow-pop: 0 12px 32px rgba(20, 20, 40, 0.16);
+
+  --glow-accent: 0 8px 26px rgba(108, 92, 255, 0.28);
+  color-scheme: light;
+}

@@ -1,0 +1,91 @@
+{
+  "name": "universal-downloader",
+  "version": "0.1.2",
+  "description": "Universal Downloader — a universal media downloader and converter. Paste any link, get max-quality MP4 or MP3. Convert local files with zero quality loss. Free, local, no accounts.",
+  "main": "src/main/main.js",
+  "author": "snowwy",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "electron .",
+    "start": "electron .",
+    "prepare-binaries": "node scripts/prepare-binaries.js",
+    "icon": "node scripts/make-placeholder-icon.js",
+    "build": "npm run prepare-binaries && electron-builder --mac --arm64",
+    "build:win": "npm run prepare-binaries && electron-builder --win --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.snowwy.universaldownloader",
+    "productName": "Universal Downloader",
+    "afterPack": "scripts/after-pack.js",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**",
+      "package.json"
+    ],
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": "arm64"
+        }
+      ],
+      "category": "public.app-category.utilities",
+      "icon": "build/icon.icns",
+      "identity": null,
+      "extraResources": [
+        {
+          "from": "resources/yt-dlp",
+          "to": "yt-dlp"
+        },
+        {
+          "from": "resources/ffmpeg",
+          "to": "ffmpeg"
+        },
+        {
+          "from": "resources/ffprobe",
+          "to": "ffprobe"
+        }
+      ]
+    },
+    "dmg": {
+      "title": "Universal Downloader"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": "x64"
+        }
+      ],
+      "icon": "build/icon.png",
+      "extraResources": [
+        {
+          "from": "resources/yt-dlp.exe",
+          "to": "yt-dlp.exe"
+        },
+        {
+          "from": "resources/ffmpeg.exe",
+          "to": "ffmpeg.exe"
+        },
+        {
+          "from": "resources/ffprobe.exe",
+          "to": "ffprobe.exe"
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "Universal-Downloader-Windows-Setup.${ext}",
+      "shortcutName": "Universal Downloader"
+    }
+  }
+}

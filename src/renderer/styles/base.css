@@ -1,0 +1,309 @@
+/* ============================================================
+   Universal Downloader — reset, app frame, custom titlebar, sidebar nav
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg-app);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'cv11', 'ss01';
+  user-select: none;
+  cursor: default;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+input {
+  font-family: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--accent-soft-hover);
+}
+
+/* Custom scrollbars — styled identically on Windows and macOS so the
+   chrome never reverts to a native gray Windows scrollbar. */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--r-pill);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-3);
+  background-clip: padding-box;
+  border: 3px solid transparent;
+}
+
+/* ================= App shell layout ================= */
+.app {
+  display: grid;
+  grid-template-rows: var(--titlebar-h) 1fr;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-areas:
+    'titlebar titlebar'
+    'sidebar  main';
+  height: 100vh;
+}
+
+/* ================= Titlebar ================= */
+.titlebar {
+  grid-area: titlebar;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: var(--s-5);
+  background: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border);
+  -webkit-app-region: drag;
+  z-index: 20;
+}
+
+.titlebar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  -webkit-app-region: no-drag;
+}
+
+.brand__mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--accent-grad);
+  box-shadow: var(--glow-accent);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.brand__mark svg {
+  width: 15px;
+  height: 15px;
+  color: #fff;
+}
+.brand__name {
+  font-size: var(--fs-md);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.brand__name .dot {
+  color: var(--accent);
+}
+
+/* Window controls — drawn on the right on BOTH platforms for a single
+   identical layout. Native traffic lights stay hidden (frameless). */
+.window-controls {
+  display: flex;
+  height: 100%;
+  -webkit-app-region: no-drag;
+}
+.win-btn {
+  width: 46px;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--text-2);
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.win-btn svg {
+  width: 11px;
+  height: 11px;
+}
+.win-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.win-btn--close:hover {
+  background: #e5484d;
+  color: #fff;
+}
+
+/* ================= Sidebar ================= */
+.sidebar {
+  grid-area: sidebar;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-4) var(--s-3);
+  overflow: hidden;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.nav__label {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: var(--s-2) var(--s-3);
+  margin-top: var(--s-2);
+}
+.nav__item {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border-radius: var(--r-sm);
+  color: var(--text-2);
+  font-size: var(--fs-md);
+  font-weight: 500;
+  position: relative;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.nav__item svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.nav__item:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.nav__item.is-active {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+.nav__item.is-active::before {
+  content: '';
+  position: absolute;
+  left: -var(--s-3);
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 18px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+}
+.nav__item .badge {
+  margin-left: auto;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.nav__item .badge:empty {
+  display: none;
+}
+
+.sidebar__foot {
+  margin-top: auto;
+  padding: var(--s-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+.storage-line {
+  font-size: var(--fs-xs);
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.storage-line svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* ================= Main / views ================= */
+.main {
+  grid-area: main;
+  background: var(--bg-app);
+  overflow: hidden;
+  position: relative;
+}
+.view {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease-out);
+}
+.view.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.view__inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: var(--s-10) var(--s-8) var(--s-16);
+}
+.view__inner--wide {
+  max-width: 1080px;
+}
+
+.view-head {
+  margin-bottom: var(--s-8);
+}
+.view-head h1 {
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.view-head p {
+  color: var(--text-2);
+  font-size: var(--fs-md);
+  margin-top: var(--s-2);
+}
+.view-head--row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+.view-head--row .btn { margin-top: var(--s-1); }
+
+.app-foot {
+  text-align: center;
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  margin-top: var(--s-10);
+}

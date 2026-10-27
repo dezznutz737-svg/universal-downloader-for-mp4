@@ -1,0 +1,19 @@
+node_modules/
+
+# Build output
+dist/
+
+# Bundled binaries are downloaded at build time, not committed
+resources/yt-dlp
+resources/yt-dlp.exe
+resources/ffmpeg
+resources/ffmpeg.exe
+resources/ffprobe
+resources/ffprobe.exe
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Local runtime data (never present in repo, but guard anyway)
+*.log

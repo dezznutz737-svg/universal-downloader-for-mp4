@@ -1,0 +1,41 @@
+# Builds the Windows installer on GitHub Actions and attaches it to the
+# GitHub Release for the pushed tag. macOS is built locally (see README);
+# each OS is built on its own platform for full parity.
+#
+# Flow: create the Release first (with the mac .dmg), then push the v* tag.
+# This job appends the Windows .exe to that existing release — so it never
+# creates a competing draft.
+name: Release (Windows)
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Downloads yt-dlp.exe + ffmpeg/ffprobe.exe into resources/, then packages
+      # the NSIS installer (build:win = prepare-binaries && electron-builder --win).
+      - name: Build Windows installer
+        run: npm run build:win
+
+      - name: Attach installer to the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*Setup.exe
+          fail_on_unmatched_files: true
