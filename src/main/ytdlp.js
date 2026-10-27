@@ -31,6 +31,11 @@ function assertValidUrl(url) {
   return url.trim();
 }
 
+function browserCookieArgs(browser) {
+  // Only use browser cookies when the user explicitly enables Edge in Settings.
+  return browser === 'edge' ? ['--cookies-from-browser', 'edge'] : [];
+}
+
 // ---- Platform identity (label + brand colour var name) ----
 const PLATFORMS = {
   youtube: { label: 'YouTube', color: 'youtube' },
@@ -54,13 +59,14 @@ function identifyPlatform(info) {
 
 // ---- Metadata fetch ----
 // Returns a compact, renderer-friendly object (never the giant raw JSON).
-function fetchInfo(url) {
+function fetchInfo(url, { cookieBrowser = 'none' } = {}) {
   const clean = assertValidUrl(url);
   return new Promise((resolve, reject) => {
     const args = [
       '-J',              // dump a single JSON object
       '--no-playlist',   // a pasted video link, not its playlist
       '--no-warnings',
+      ...browserCookieArgs(cookieBrowser),
       '--',
       clean,
     ];
@@ -130,6 +136,7 @@ function download(opts, { onProgress, onStage } = {}) {
   const args = [
     '--no-playlist',
     '--no-warnings',
+    ...browserCookieArgs(opts.cookieBrowser),
     '--newline',
     '--no-simulate',
     '--concurrent-fragments', String(frags),
@@ -236,6 +243,9 @@ function bindLines(stream, onLine) {
 
 function friendlyError(stderr) {
   const s = String(stderr);
+  if (/Sign in to confirm|confirm you.{0,2}re not a bot/i.test(s)) {
+    return 'YouTube needs sign-in verification. In Settings, choose Microsoft Edge under Browser cookies, then retry. You must be signed in to that video in Edge.';
+  }
   if (/Unsupported URL|no suitable/i.test(s)) return 'That site or link isn’t supported.';
   if (/Private video|login required|This video is private/i.test(s)) return 'That media is private or needs a login.';
   if (/Video unavailable|not available|has been removed/i.test(s)) return 'That media is unavailable or was removed.';

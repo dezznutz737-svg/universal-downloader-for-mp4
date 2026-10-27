@@ -23,7 +23,7 @@ function init(getWindow) {
   queue.on('history', (entry) => send('history:add', entry));
 
   // ---- Metadata ----
-  ipcMain.handle('info:fetch', (_e, url) => ytdlp.fetchInfo(url));
+  ipcMain.handle('info:fetch', (_e, url) => ytdlp.fetchInfo(url, { cookieBrowser: settings.load().cookieBrowser }));
 
   // ---- Downloads ----
   ipcMain.handle('download:start', (_e, opts) => queue.addDownload(opts));

@@ -20,6 +20,7 @@ Grab the latest installer from the [**Releases**](https://github.com/SnowwyHimse
 
 - **Universal download** — one input field. Paste a link from anywhere yt-dlp supports; Universal Downloader auto-detects the platform and fetches a preview (thumbnail, title, uploader, duration, quality options).
 - **Maximum quality, zero loss** — always grabs `bestvideo+bestaudio` and merges with ffmpeg, remuxing (no re-encode) whenever codecs allow. MP3 extraction at 320 kbps.
+- **Optional browser sign-in** — for sites that require verification, enable Microsoft Edge cookies in Settings. Cookie access stays local and is off by default.
 - **Converter** — drop in local files to change format: video→audio, video→video, audio→audio. Remux when possible, high-quality re-encode when not. Batch queue supported.
 - **Live queue** — concurrent downloads/conversions with per-item progress (percent, speed, ETA, cancel) plus a history with *Open* / *Show in folder*.
 - **Clipboard watch** — optionally offers to download when you copy a media link.

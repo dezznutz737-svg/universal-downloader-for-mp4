@@ -104,6 +104,7 @@ class Queue extends EventEmitter {
           name: job.name,
           outDir: cfg.downloadFolder,
           concurrentFragments: cfg.concurrentFragments,
+          cookieBrowser: cfg.cookieBrowser,
         },
         {
           onProgress: (p) => {

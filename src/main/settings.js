@@ -16,6 +16,7 @@ function defaults() {
     concurrentFragments: 4,
     theme: 'dark', // 'dark' | 'light'
     watchClipboard: false,
+    cookieBrowser: 'none', // 'none' | 'edge' — explicitly opt in to local browser cookies
   };
 }
 
@@ -28,6 +29,7 @@ function load() {
   } catch {
     cache = defaults();
   }
+  if (!['none', 'edge'].includes(cache.cookieBrowser)) cache.cookieBrowser = 'none';
   // Migrate installs from the old auto-assigned "<Downloads>/Universal Downloader"
   // subfolder default to plain Downloads. Only touches the folder if it still
   // matches that old default (i.e. the user never picked one themselves).
@@ -41,7 +43,9 @@ function load() {
 }
 
 function save(patch) {
-  cache = { ...load(), ...patch };
+  const safePatch = { ...(patch || {}) };
+  if ('cookieBrowser' in safePatch && !['none', 'edge'].includes(safePatch.cookieBrowser)) safePatch.cookieBrowser = 'none';
+  cache = { ...load(), ...safePatch };
   try {
     fs.writeFileSync(settingsPath, JSON.stringify(cache, null, 2));
   } catch (e) {

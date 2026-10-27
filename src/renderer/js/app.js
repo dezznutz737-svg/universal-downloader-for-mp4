@@ -439,6 +439,7 @@ async function loadSettings() {
   $('#set-quality').value = settings.defaultQuality || 'best';
   $('#set-concurrency').value = String(settings.concurrency || 3);
   $('#set-clipboard').checked = !!settings.watchClipboard;
+  $('#set-cookie-browser').value = settings.cookieBrowser === 'edge' ? 'edge' : 'none';
 }
 
 async function patchSettings(patch) {
@@ -458,6 +459,7 @@ $$('#set-format button').forEach((b) =>
 $('#set-quality')?.addEventListener('change', (e) => patchSettings({ defaultQuality: e.target.value }));
 $('#set-concurrency')?.addEventListener('change', (e) => patchSettings({ concurrency: parseInt(e.target.value, 10) }));
 $('#set-clipboard')?.addEventListener('change', (e) => patchSettings({ watchClipboard: e.target.checked }));
+$('#set-cookie-browser')?.addEventListener('change', (e) => patchSettings({ cookieBrowser: e.target.value }));
 $$('#theme-seg button').forEach((b) =>
   b.addEventListener('click', () => { applyTheme(b.dataset.theme); patchSettings({ theme: b.dataset.theme }); }));
 
